@@ -1,7 +1,7 @@
 import {
 	Sequelize,
 } from "sequelize-typescript";
-import {Service, Log} from "./types.js";
+import {Service, Log} from "./models.js";
 import ENV from "../utils/env.js";
 
 const sequelize = new Sequelize({
@@ -9,6 +9,8 @@ const sequelize = new Sequelize({
 	storage: ENV.DATABASE_URI,
 	logging: () => {},
 });
+
 sequelize.addModels([Log, Service])
+
 await sequelize.sync()
 export default sequelize

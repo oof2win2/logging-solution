@@ -5,7 +5,8 @@ import {
 	Column,
 	HasMany,
 	ForeignKey,
-	BelongsTo
+	BelongsTo,
+	Unique,
   } from "sequelize-typescript";
 
 
@@ -24,9 +25,6 @@ export class Service extends Model {
 	tableName: "logs"
 })
 export class Log extends Model {
-	@Column
-	name!: string
-
 	@Column
 	data!: string
 
