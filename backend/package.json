@@ -1,0 +1,38 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "ts-node ./src/app.ts",
+    "dev": "nodemon ./src/app.ts",
+    "eslint": "eslint src/ --fix --ext .ts",
+    "prettier": "prettier --write .",
+    "lint": "npm run eslint && npm run prettier",
+    "postinstall": "install-types",
+    "pm2:build": "tsc",
+    "pm2:start": "pm2 start pm2.config.js",
+    "pm2": "npm run pm2:build && npm run pm2:start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sinclair/typebox": "^0.20.5",
+    "dotenv": "^10.0.0",
+    "envalid": "^7.2.1",
+    "fastify": "^3.22.0",
+    "fastify-autoload": "^3.9.0",
+    "fastify-cors": "^6.0.2",
+    "fastify-decorators": "^3.10.0",
+    "sequelize-typescript": "^2.1.0",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.2",
+    "eslint": "^7.32.0",
+    "install-types": "^2.0.1",
+    "prettier": "^2.4.1"
+  }
+}
