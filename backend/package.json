@@ -26,6 +26,7 @@
     "fastify-autoload": "^3.9.0",
     "fastify-cors": "^6.0.2",
     "fastify-decorators": "^3.10.0",
+    "fastify-formbody": "^5.1.0",
     "sequelize-typescript": "^2.1.0",
     "sqlite3": "^5.0.2"
   },
