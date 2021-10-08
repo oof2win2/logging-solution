@@ -1,8 +1,6 @@
-import {
-	Sequelize,
-} from "sequelize-typescript";
-import {Service, Log} from "./models.js";
-import ENV from "../utils/env.js";
+import { Sequelize } from "sequelize-typescript"
+import { Service, Log } from "./models.js"
+import ENV from "../utils/env.js"
 
 const sequelize = new Sequelize({
 	dialect: "sqlite",

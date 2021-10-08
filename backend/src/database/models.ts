@@ -8,11 +8,10 @@ import {
 	BelongsTo,
 	Unique,
 	Length,
-  } from "sequelize-typescript";
-
+} from "sequelize-typescript"
 
 @Table({
-	tableName: "services"
+	tableName: "services",
 })
 export class Service extends Model {
 	@Column(DataType.STRING)
@@ -23,10 +22,14 @@ export class Service extends Model {
 }
 
 @Table({
-	tableName: "logs"
+	tableName: "logs",
 })
 export class Log extends Model {
-	@Column
+	@Column(
+		DataType.TEXT({
+			length: "long",
+		})
+	)
 	data!: string
 
 	@ForeignKey(() => Service)

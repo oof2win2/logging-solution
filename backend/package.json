@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "start": "ts-node ./src/app.ts",
-    "dev": "nodemon ./src/app.ts",
+    "start": "node ./dist/app.js",
+    "dev": "nodemon ./dist/app.js",
     "eslint": "eslint src/ --fix --ext .ts",
     "prettier": "prettier --write .",
     "lint": "npm run eslint && npm run prettier",
@@ -19,7 +19,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sinclair/typebox": "^0.20.5",
     "dotenv": "^10.0.0",
     "envalid": "^7.2.1",
     "fastify": "^3.22.0",
@@ -28,7 +27,8 @@
     "fastify-decorators": "^3.10.0",
     "fastify-formbody": "^5.1.0",
     "sequelize-typescript": "^2.1.0",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@types/node": "^16.10.2",
