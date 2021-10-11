@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from "react"
-import { Paper, Typography, Skeleton } from "@mui/material"
+import {
+	Paper,
+	Typography,
+	Skeleton,
+	Table,
+	TableRow,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableContainer,
+} from "@mui/material"
 import { Service, Log } from "../../types"
-import LogComponent from "../Log/Log"
+import dayjs from "dayjs"
 import ENV from "../../utils/env"
+import { useStyles } from "../../utils/Customization"
 
 interface ServiceLogsProps {
 	serviceId: number
@@ -14,6 +25,7 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ serviceId }) => {
 	const [logLimit, setLogLimit] = useState(100)
 	const [fetchingService, setFetchingService] = useState(true)
 	const [fetchingLogs, setFetchingLogs] = useState(false)
+	const styles = useStyles()
 
 	useEffect(() => {
 		const fetchService = async () => {
@@ -23,7 +35,6 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ serviceId }) => {
 
 			setFetchingService(false)
 			if (service.service) setService(service.service)
-			else console.log(service)
 		}
 		fetchService()
 	}, [])
@@ -43,15 +54,12 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ serviceId }) => {
 				}
 			).then((r) => r.json())
 			if (logs.logs) setLogs(logs.logs)
-			else console.log(logs)
 
 			setFetchingLogs(false)
 		}
 		if (!fetchingService) fetchLogs()
 	}, [fetchingService])
 
-	console.log(service, fetchingService, fetchingLogs)
-	console.log(!service, !fetchingService, !fetchingLogs)
 	if (!service && !fetchingService && !fetchingLogs)
 		return (
 			<Paper elevation={1}>
@@ -73,12 +81,53 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ serviceId }) => {
 					{service.name} ({service.id})
 				</Typography>
 			)}
-			{logs.map((log, i) => (
-				<LogComponent log={log} key={i} />
-			))}
-			{/* <Typography variant="h1">
-				{(fetchingService && "Fetching service") || "Service fetched"}
-			</Typography> */}
+			<TableContainer component={Paper}>
+				<Table>
+					<colgroup>
+						<col style={{ width: "6%" }} />
+						<col style={{ width: "14%" }} />
+						<col />
+					</colgroup>
+					<TableHead>
+						<TableRow>
+							<TableCell
+								size="small"
+								align="right"
+								className={styles.p}
+							>
+								ID
+							</TableCell>
+							<TableCell
+								size="small"
+								align="left"
+								className={styles.p}
+							>
+								Time
+							</TableCell>
+							<TableCell align="left" className={styles.p}>
+								Data
+							</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{logs.map((log) => (
+							<TableRow key={log.id}>
+								<TableCell align="right" className={styles.p}>
+									{log.id}
+								</TableCell>
+								<TableCell align="left" className={styles.p}>
+									{dayjs(log.createdAt).format(
+										"YYYY-MM-DD HH:MM:ss.SSS"
+									)}
+								</TableCell>
+								<TableCell align="left" className={styles.p}>
+									{log.data}
+								</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
 		</Paper>
 	)
 }

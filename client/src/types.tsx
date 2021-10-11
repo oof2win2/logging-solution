@@ -4,6 +4,7 @@ export interface Service {
 	logs: Log[]
 }
 export interface Log {
+	id: number
 	data: string
 	serviceId: number
 	createdAt: string
