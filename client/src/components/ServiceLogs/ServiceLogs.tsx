@@ -14,6 +14,7 @@ import { Service, Log } from "../../types"
 import dayjs from "dayjs"
 import ENV from "../../utils/env"
 import { useStyles } from "../../utils/Customization"
+import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid"
 
 interface ServiceLogsProps {
 	serviceId: number
@@ -68,6 +69,20 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ serviceId }) => {
 				</Typography>
 			</Paper>
 		)
+	const rows: GridRowsProp = logs.map((log) => {
+		return {
+			id: log.id,
+			col1: log.id,
+			col2: dayjs(log.createdAt).format("YYYY-MM-DD HH:MM:ss.SSS"),
+			col3: log.data,
+		}
+	})
+	const columns: GridColDef[] = [
+		{ field: "col1", headerName: "ID", width: 150 },
+		{ field: "col2", headerName: "Time", width: 150 },
+		{ field: "col3", headerName: "Data", width: 150 },
+	]
+	console.log(rows)
 
 	return (
 		<Paper elevation={1}>
@@ -81,7 +96,21 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ serviceId }) => {
 					{service.name} ({service.id})
 				</Typography>
 			)}
-			<TableContainer component={Paper}>
+
+			<div style={{ height: 300, width: "100%" }}>
+				<DataGrid
+					rows={rows}
+					columns={columns}
+					getCellClassName={() => styles.p}
+					getRowClassName={() => styles.p}
+					style={{ color: "#ffffff" }}
+					classes={{
+						rowCount: styles.p,
+					}}
+				/>
+			</div>
+
+			{/* <TableContainer component={Paper}>
 				<Table>
 					<colgroup>
 						<col style={{ width: "6%" }} />
@@ -120,14 +149,20 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ serviceId }) => {
 										"YYYY-MM-DD HH:MM:ss.SSS"
 									)}
 								</TableCell>
-								<TableCell align="left" className={styles.p}>
+								<TableCell
+									align="left"
+									className={styles.p}
+									sx={{
+										fontFamily: "Roboto Mono",
+									}}
+								>
 									{log.data}
 								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
 				</Table>
-			</TableContainer>
+			</TableContainer> */}
 		</Paper>
 	)
 }
