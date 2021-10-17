@@ -62,13 +62,33 @@ const start = async () => {
 }
 start()
 
-await Service.create({
-	name: "AwF-Regular",
-})
+await Log.sync({ force: true })
+
+function randomIntFromInterval(min: number, max: number) {
+	// min and max included
+	return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 const logs = new Array(600).fill(0).map((_, i) => {
+	let type: "debug" | "info" | "warn" | "error" = "debug"
+	switch (randomIntFromInterval(1, 4)) {
+		case 1:
+			type = "debug"
+			break
+		case 2:
+			type = "info"
+			break
+		case 3:
+			type = "warn"
+			break
+		case 4:
+			type = "error"
+			break
+	}
 	return {
 		data: `Log #${i}`,
-		serviceId: 2,
+		serviceId: randomIntFromInterval(1, 2),
+		logType: type,
 	}
 })
 await Log.bulkCreate(logs)

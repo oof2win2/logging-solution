@@ -10,7 +10,7 @@ module.exports = {
 	],
 	parserOptions: {},
 	rules: {
-		indent: ["error", "tab"],
+		indent: ["error", "tab", { SwitchCase: 1 }],
 		"linebreak-style": ["error", "unix"],
 		quotes: ["error", "double"],
 		semi: ["error", "never"],

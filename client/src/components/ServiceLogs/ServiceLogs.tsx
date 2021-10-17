@@ -4,7 +4,12 @@ import { Service, Log } from "../../types"
 import dayjs from "dayjs"
 import ENV from "../../utils/env"
 import { useStyles } from "../../utils/Customization"
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid"
+import {
+	DataGrid,
+	GridColDef,
+	GridRowsProp,
+	GridRowParams,
+} from "@mui/x-data-grid"
 
 interface ServiceLogsProps {
 	service: Service
@@ -13,9 +18,7 @@ interface ServiceLogsProps {
 const ServiceLogs: React.FC<ServiceLogsProps> = ({ service }) => {
 	const [logs, setLogs] = useState<Log[]>([])
 	const [fetchingLogs, setFetchingLogs] = useState(false)
-	const [tablePage, setTablePage] = useState(0)
 	const [maxTablePage, setMaxTablePage] = useState(2)
-	const [rowsPerPage, setRowsPerPage] = useState(100)
 	const styles = useStyles()
 
 	const fetchLogs = (): void => {
@@ -48,6 +51,7 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ service }) => {
 					},
 				}
 			).then((r) => r.json())
+			console.log(fetchedLogs.logs)
 			if (fetchedLogs.logs) setLogs([...logs, ...fetchedLogs.logs])
 
 			setFetchingLogs(false)
@@ -61,7 +65,6 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ service }) => {
 	}, [])
 
 	const handleTablePageChange = (tablePage: number) => {
-		setTablePage(tablePage)
 		if (tablePage + 1 >= maxTablePage) fetchLogs()
 	}
 	const handlePageSizeChange = (newSize: number) => {
@@ -69,14 +72,13 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ service }) => {
 		setMaxTablePage(Math.ceil(logs.length / newSize))
 	}
 
-	const IDSet = new Set()
 	const rows: GridRowsProp = logs.map((log) => {
-		IDSet.add(log.id)
 		return {
 			id: log.id,
 			col1: log.id,
 			col2: dayjs(log.createdAt).format("YYYY-MM-DD HH:MM:ss.SSS"),
 			col3: log.data,
+			logType: log.logType,
 		}
 	})
 
@@ -84,22 +86,38 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ service }) => {
 		{
 			field: "col1",
 			headerName: "ID",
-			width: 144,
+			// width: 144,
 			cellClassName: styles.p,
 		},
 		{
 			field: "col2",
 			headerName: "Time",
-			width: 190,
+			width: 244,
 			cellClassName: styles.p,
 		},
 		{
 			field: "col3",
 			headerName: "Data",
-			width: window.outerWidth - 198 - 48,
+			// width: window.outerWidth - 198 - 48,
 			cellClassName: styles.pmono,
 		},
 	]
+
+	const getRowStyles = (data: GridRowParams) => {
+		if (!data.row.logType) return styles.pmono
+		switch (data.row.logType) {
+			case "debug":
+				return styles.logTypeDebug
+			case "info":
+				return styles.logTypeInfo
+			case "warn":
+				return styles.logTypeWarn
+			case "error":
+				return styles.logTypeError
+			default:
+				return styles.logTypeInfo
+		}
+	}
 
 	return (
 		<Paper elevation={1}>
@@ -111,10 +129,11 @@ const ServiceLogs: React.FC<ServiceLogsProps> = ({ service }) => {
 				<DataGrid
 					rows={rows}
 					columns={columns}
-					getRowClassName={() => styles.p}
-					style={{ color: "#ffffff" }}
+					getRowClassName={getRowStyles}
+					// TODO: fix footer colors to not let them be white
 					classes={{
-						rowCount: styles.p,
+						rowCount: styles.columnHeader,
+						columnHeader: styles.columnHeader,
 					}}
 					onPageChange={handleTablePageChange}
 					onPageSizeChange={handlePageSizeChange}

@@ -8,4 +8,5 @@ export interface Log {
 	data: string
 	serviceId: number
 	createdAt: string
+	logType: "debug" | "info" | "warn" | "error"
 }

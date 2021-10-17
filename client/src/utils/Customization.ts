@@ -30,4 +30,29 @@ export const useStyles = makeStyles({
 		color: "#ddd9d9",
 		fontFamily: "Roboto Mono",
 	},
+	logTypeDebug: {
+		color: "#ddd9d9",
+		fontFamily: "Roboto Mono",
+	},
+	logTypeInfo: {
+		color: "#ddd9d9",
+		backgroundColor: "#565656",
+		fontFamily: "Roboto Mono",
+	},
+	logTypeWarn: {
+		color: "#ddd9d9",
+		backgroundColor: "#afb714",
+		fontFamily: "Roboto Mono",
+	},
+	logTypeError: {
+		color: "#ddd9d9",
+		backgroundColor: "#b71414",
+		fontFamily: "Roboto Mono",
+	},
+	footerData: {
+		color: "#ffffff",
+	},
+	columnHeader: {
+		color: "#ffffff",
+	},
 })

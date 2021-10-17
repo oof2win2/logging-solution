@@ -37,4 +37,10 @@ export class Log extends Model {
 
 	@BelongsTo(() => Service)
 	service!: Service
+
+	@Column({
+		type: DataType.ENUM("debug", "info", "warn", "error"),
+		defaultValue: "info",
+	})
+	logType!: "debug" | "info" | "warn" | "error"
 }
