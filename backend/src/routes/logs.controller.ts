@@ -66,7 +66,7 @@ export default class ServiceController {
 					: {}),
 			},
 			limit: limit,
-			order: [["createdAt", "DESC"]],
+			order: [["id", "DESC"]],
 		})
 		return res.send({ logs: logs })
 	}

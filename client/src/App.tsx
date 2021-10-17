@@ -3,7 +3,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material"
 import React from "react"
 import "./App.css"
 import { theme } from "./utils/Customization"
-import ServiceLogs from "./components/ServiceLogs/ServiceLogs"
+import Services from "./pages/services/services"
 import { StyledEngineProvider } from "@mui/material/styles"
 
 import "@fontsource/roboto-mono"
@@ -13,7 +13,7 @@ function App(): JSX.Element {
 		<ThemeProvider theme={theme}>
 			<StyledEngineProvider injectFirst>
 				<CssBaseline />
-				<ServiceLogs serviceId={1} />
+				<Services />
 			</StyledEngineProvider>
 		</ThemeProvider>
 	)

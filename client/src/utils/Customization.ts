@@ -26,4 +26,8 @@ export const useStyles = makeStyles({
 	p: {
 		color: "#ddd9d9",
 	},
+	pmono: {
+		color: "#ddd9d9",
+		fontFamily: "Roboto Mono",
+	},
 })

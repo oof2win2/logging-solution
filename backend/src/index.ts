@@ -12,6 +12,7 @@ import formBodyPlugin from "fastify-formbody"
 import { bootstrap } from "fastify-decorators"
 import ENV from "./utils/env.js"
 import "./database/database.js"
+import { Log, Service } from "./database/models.js"
 
 const fastify: FastifyInstance = Fastify({})
 
@@ -60,3 +61,14 @@ const start = async () => {
 	}
 }
 start()
+
+await Service.create({
+	name: "AwF-Regular",
+})
+const logs = new Array(600).fill(0).map((_, i) => {
+	return {
+		data: `Log #${i}`,
+		serviceId: 2,
+	}
+})
+await Log.bulkCreate(logs)
